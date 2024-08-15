@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Headlines</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='debug.js') }}"></script>
+</head>
+<body>
+    <h1>Top 5 Headlines from BBC, CNN, and Al Jazeera</h1>
+    <div class="headlines-container">
+        {% for source, headlines_list in headlines.items() %}
+        <div class="source">
+            <h2>{{ source }}</h2>
+            <ul>
+                {% for headline in headlines_list %}
+                <li>{{ headline }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

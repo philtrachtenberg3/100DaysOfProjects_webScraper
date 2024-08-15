@@ -1,0 +1,33 @@
+# .gitignore
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+
+# Flask cache files
+instance/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.local
+
+# Log files
+*.log
+
+# Database files
+*.sqlite3
+
+# Environment variables
+.env
+
+# IDE/Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.iml
