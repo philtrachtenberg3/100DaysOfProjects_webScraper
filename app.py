@@ -7,8 +7,21 @@ app = Flask(__name__)
 def get_headlines(url, selector, limit=5):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
-    headlines = soup.select(selector)  # Using CSS selectors for more flexibility
-    return [headline.get_text(strip=True) for headline in headlines[:limit]]
+    headlines = soup.select(selector)
+
+    # Extract and filter out duplicates
+    unique_headlines = []
+    seen = set()
+    for headline in headlines:
+        text = headline.get_text(strip=True)
+        if text not in seen:
+            seen.add(text)
+            unique_headlines.append(text)
+        if len(unique_headlines) == limit:
+            break
+
+    return unique_headlines
+
 
 @app.route('/')
 def index():
