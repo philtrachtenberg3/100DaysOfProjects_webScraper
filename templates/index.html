@@ -15,7 +15,11 @@
             <h2>{{ source }}</h2>
             <ul>
                 {% for headline in headlines_list %}
-                <li>{{ headline }}</li>
+                    {% if loop.index == 1 %}
+                        <li style="font-weight: bold;">{{ headline }}</li>
+                    {% else %}
+                        <li>{{ headline }}</li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>

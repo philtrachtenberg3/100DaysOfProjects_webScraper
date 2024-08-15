@@ -15,7 +15,11 @@ def index():
     # Define the websites and their respective selectors for headlines
     sources = {
         "BBC": {"url": "https://www.bbc.com/news", "selector": "h3"},
-        "CNN": {"url": "https://edition.cnn.com/world", "selector": ".cd__headline-text"},
+        "CNN World": {"url": "https://edition.cnn.com/world", "selector": "span.container__headline-text"},
+        "CNN US": {
+            "url": "https://cnn.com",
+            "selector": "body div.scope span.container__headline-text"
+        },
         "Al Jazeera": {"url": "https://www.aljazeera.com/", "selector": "h3.article-card__title span"},
     }
 
