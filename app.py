@@ -14,7 +14,7 @@ def get_headlines(url, selector, limit=5):
 def index():
     # Define the websites and their respective selectors for headlines
     sources = {
-        "BBC": {"url": "https://www.bbc.com/news", "selector": "h3"},
+        "BBC": {"url": "https://www.bbc.com/", "selector": "h2[data-testid='card-headline']"},
         "CNN World": {"url": "https://edition.cnn.com/world", "selector": "span.container__headline-text"},
         "CNN US": {
             "url": "https://cnn.com",
