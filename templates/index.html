@@ -14,11 +14,15 @@
         <div class="source">
             <h2>{{ source }}</h2>
             <ul>
-                {% for headline in headlines_list %}
+                {% for headline, link in headlines_list %}
                     {% if loop.index == 1 %}
-                        <li style="font-weight: bold;">{{ headline }}</li>
+                        <li style="font-weight: bold;">
+                            <a href="{{ link }}" target="_blank">{{ headline }}</a>
+                        </li>
                     {% else %}
-                        <li>{{ headline }}</li>
+                        <li>
+                            <a href="{{ link }}" target="_blank">{{ headline }}</a>
+                        </li>
                     {% endif %}
                 {% endfor %}
             </ul>
