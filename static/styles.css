@@ -41,3 +41,15 @@ h1 {
     margin-bottom: 10px;
     font-size: 1.1em;
 }
+
+/* Remove the default blue color and underline from links */
+a {
+    color: inherit; /* Inherit the color from the parent element */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Add a hover effect to make it clear the text is a link */
+a:hover {
+    color: #0056b3; /* Change to a subtle blue on hover */
+    text-decoration: underline; /* Underline the link on hover */
+}

@@ -14,16 +14,23 @@ def get_headlines(url, selector, link_selector, limit=5):
     
     for headline in headlines:
         text = headline.get_text(strip=True)
-        link = headline.find_parent(link_selector).get('href')  # Get the link
-        full_link = link if link.startswith('http') else url.rstrip('/') + '/' + link.lstrip('/')  # Handle relative URLs
-        
-        if text not in seen:
-            seen.add(text)
-            unique_headlines.append((text, full_link))  # Store both text and link
-        if len(unique_headlines) == limit:
-            break
+        parent_element = headline.find_parent(link_selector)  # Find the parent link
+        if parent_element:  # Check if the parent element exists
+            link = parent_element.get('href')
+            full_link = link if link.startswith('http') else url.rstrip('/') + '/' + link.lstrip('/')  # Handle relative URLs
+            
+            if text not in seen:
+                seen.add(text)
+                unique_headlines.append((text, full_link))  # Store both text and link
+            
+            if len(unique_headlines) == limit:
+                break
+        else:
+            # Handle the case where the link is not found (log, skip, etc.)
+            print(f"Warning: No parent link found for headline '{text}' on {url}")
 
     return unique_headlines
+
 
 
 @app.route('/')
@@ -38,6 +45,31 @@ def index():
             "link_selector": "a"
         },
         "Al Jazeera": {"url": "https://www.aljazeera.com/", "selector": "h3.article-card__title span", "link_selector": "a"},
+        "New York Times": {
+            "url": "https://www.nytimes.com/",
+            "selector": "p.indicate-hover",
+            "link_selector": "a"
+        },
+    "The Guardian": {
+        "url": "https://www.theguardian.com/",
+        "selector": "a.u-faux-block-link__overlay",
+        "link_selector": "a.u-faux-block-link__overlay"
+    },
+    "Reuters": {
+        "url": "https://www.reuters.com/",
+        "selector": "h3.story-title",
+        "link_selector": "a"
+    },
+    "Fox News": {
+        "url": "https://www.foxnews.com/",
+        "selector": "div.page h3.title",
+        "link_selector": "a"
+    },
+    "NBC News": {
+        "url": "https://www.nbcnews.com/",
+        "selector": "h2.tease-card__headline",
+        "link_selector": "a"
+    },
     }
 
     headlines = {}
