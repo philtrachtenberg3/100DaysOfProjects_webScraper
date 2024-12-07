@@ -62,7 +62,7 @@ def index():
     },
     "Fox News": {
         "url": "https://www.foxnews.com/",
-        "selector": "div.page h3.title",
+        "selector": "header.info-header h3.title a",
         "link_selector": "a"
     },
     "NBC News": {
