@@ -13,11 +13,20 @@ def get_headlines(url, selector, link_selector, limit=5):
     seen = set()
     
     for headline in headlines:
-        text = headline.get_text(strip=True)
-        parent_element = headline.find_parent(link_selector)  # Find the parent link
-        if parent_element:  # Check if the parent element exists
-            link = parent_element.get('href')
-            full_link = link if link.startswith('http') else url.rstrip('/') + '/' + link.lstrip('/')  # Handle relative URLs
+        # Check if the link_selector is 'self' or another tag
+        if link_selector == "self":
+            # Assume the selector targets <a> tags directly
+            text = headline.get_text(strip=True)
+            link = headline.get('href')
+        else:
+            # Find the parent or child <a> tag for the headline
+            link_element = headline.find_parent(link_selector) or headline.find(link_selector)
+            text = headline.get_text(strip=True)
+            link = link_element.get('href') if link_element else None
+        
+        if link:  # Ensure the link exists
+            # Handle relative URLs
+            full_link = link if link.startswith('http') else url.rstrip('/') + '/' + link.lstrip('/')
             
             if text not in seen:
                 seen.add(text)
@@ -26,10 +35,10 @@ def get_headlines(url, selector, link_selector, limit=5):
             if len(unique_headlines) == limit:
                 break
         else:
-            # Handle the case where the link is not found (log, skip, etc.)
-            print(f"Warning: No parent link found for headline '{text}' on {url}")
+            print(f"Warning: No link found for headline '{text}' on {url}")
 
     return unique_headlines
+
 
 
 
@@ -53,7 +62,7 @@ def index():
     "The Guardian": {
         "url": "https://www.theguardian.com/",
         "selector": "a.u-faux-block-link__overlay",
-        "link_selector": "a.u-faux-block-link__overlay"
+        "link_selector": "self"
     },
     "Reuters": {
         "url": "https://www.reuters.com/",
@@ -63,7 +72,7 @@ def index():
     "Fox News": {
         "url": "https://www.foxnews.com/",
         "selector": "header.info-header h3.title a",
-        "link_selector": "a"
+        "link_selector": "self"
     },
     "NBC News": {
         "url": "https://www.nbcnews.com/",
